@@ -1,4 +1,5 @@
 #! /usr/bin/python
+# -*- coding: utf-8 -*-
 
 import requests
 import getpass
@@ -104,24 +105,28 @@ def getPlanning(cookie, onlyNext, force):
 	activities = json.loads(cache["content"])
 
 	if onlyNext:
+		str = ""
 		if len(activities) == 0:
-			print "Nothing to do"
+			str = "Nothing to do"
 			exit(0)
+		str += activities[0]["title"][:15]
 		if activities[0]["room"]:
-			print activities[0]["title"][:15], "-", activities[0]["room"].rsplit('/', 1)[1], "->", strRelativeDate(datetime.strptime(activities[0]["begin"], "%Y-%m-%d %H:%M:%S"))
-		else:
-			print activities[0]["title"][:15], "->", strRelativeDate(datetime.strptime(activities[0]["begin"], "%Y-%m-%d %H:%M:%S"))
+			str += " - "
+			str += activities[0]["room"].rsplit('/', 1)[1]
+		str += " -> "
+		str += strRelativeDate(datetime.strptime(activities[0]["begin"], "%Y-%m-%d %H:%M:%S"))
+		print str.encode('utf-8')
 		exit(0)
 
 	for i, activity in enumerate(activities):
 		print "\nActivity ", i
-		print "Name : ", activity["title"]
-		print "Type : ", activity["status"]
-		print "Starting : ", datetime.strptime(activity["begin"], "%Y-%m-%d %H:%M:%S")
-		print "Ending : ", datetime.strptime(activity["end"], "%Y-%m-%d %H:%M:%S")
-		print "Starting in : ", strRelativeDate(datetime.strptime(activity["begin"], "%Y-%m-%d %H:%M:%S"))
+		print "Name :", activity["title"].encode('utf-8')
+		print "Type :", activity["status"].encode('utf-8')
+		print "Starting :", datetime.strptime(activity["begin"], "%Y-%m-%d %H:%M:%S")
+		print "Ending :", datetime.strptime(activity["end"], "%Y-%m-%d %H:%M:%S")
+		print "Starting in :", strRelativeDate(datetime.strptime(activity["begin"], "%Y-%m-%d %H:%M:%S")).encode('utf-8')
 		if activity["room"]:
-			print "Room : ", activity["room"].rsplit('/', 1)[1]
+			print "Room : ", activity["room"].rsplit('/', 1)[1].encode('utf-8')
 
 	return
 
