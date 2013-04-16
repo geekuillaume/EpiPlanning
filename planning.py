@@ -133,7 +133,7 @@ def getPlanning(cookie, onlyNext, force):
 def strRelativeDate(dateTo):
 	str = ""
 	duree = dateTo - datetime.now()
-	if duree.days > 1:
+	if duree.days >= 1:
 		str += "%d days, "%(duree.days,)
 	str += "%dh%d"%(duree.seconds / 3600, (duree.seconds / 60) % 60,)
 	return str
